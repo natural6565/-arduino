@@ -59,7 +59,7 @@ void move1() { //1번째 칸에 버리는 기준
 }
 
 void move2() { //2번째 칸에 버리는 기준
-  for(uint16_t pulselen = 275; pulselen < 480; pulselen+=2) { // 오른쪽 버리기
+  for(uint16_t pulselen = 275; pulselen < 480; pulselen++) { // 오른쪽 버리기
     pwm.setPWM(0, 0, pulselen);
     delay(1);
   }
@@ -176,8 +176,9 @@ void loop() {
     duration = pulseIn(echoPin, HIGH);
     distance = 17 * duration / 1000;
     
-//    Serial.println(distance);
+    Serial.println(distance);
     if((distance <= 20) == true) {
+      delay(300);
       Serial.println("1");
       st2 = true;
       st1 = false;
@@ -193,7 +194,7 @@ void loop() {
       st3_cnt = 0;
       st2 = false;
     }
-    // Serial.println("값 받음");
+    // Serial.println("값 받음");  
       
   }
     // Serial.println("2");
