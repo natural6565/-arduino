@@ -30,6 +30,7 @@ void mv(char n) {
 }
 
 void move1() { //1번째 칸에 버리는 기준
+
   for(uint16_t pulselen = 275; pulselen < 480; pulselen+=2) { // 오른쪽 버리기
     pwm.setPWM(0, 0, pulselen);
     delay(1);
@@ -117,28 +118,34 @@ void move3() { //3번째 칸에 버리는 기준
 }
 
 void move4() { //4번째 칸에 버리는 기준
-  for(uint16_t pulselen = 275; pulselen > 60; pulselen-=2) { // 왼쪽 버리기
+  for(uint16_t pulselen = 275; pulselen < 550; pulselen+=4) { //흔들기
+    pwm.setPWM(0, 0, pulselen);
+  }
+  
+  delay(200);
+  
+  for(uint16_t pulselen = 550; pulselen > 80; pulselen-=4) { // 왼쪽 버리기
     pwm.setPWM(0, 0, pulselen);
     delay(1);
   }
   
-  delay(200);
+  delay(700);
 
-  for(uint16_t pulselen = 60; pulselen < 275; pulselen++) { // 왼쪽 돌아오기
+  for(uint16_t pulselen = 80; pulselen < 275; pulselen++) { // 왼쪽 돌아오기
     pwm.setPWM(0, 0, pulselen);
     delay(1);
   }
   pwm.setPWM(0, 0, 4096);
   delay(150);
   
-  for(uint16_t pulselen = 430; pulselen > 190; pulselen--) { // 왼쪽 버리기
+  for(uint16_t pulselen = 430; pulselen > 130; pulselen--) { // 왼쪽 버리기
     pwm.setPWM(1, 0, pulselen);
     delay(1);
   }
 
   delay(1000);
 
-  for(uint16_t pulselen = 190; pulselen < 430; pulselen++) { // 왼쪽 돌아오기
+  for(uint16_t pulselen = 130; pulselen < 430; pulselen++) { // 왼쪽 돌아오기
     pwm.setPWM(1, 0, pulselen);
     delay(1);
   }
@@ -153,7 +160,7 @@ void setup() {
   pwm.setPWMFreq(SERVO_FREQ);
   delay(10);
 
-  pwm.setPWM(0, 0, 4096);
+//  pwm.setPWM(0, 0, 4096);
   pwm.setPWM(1, 0, 4096);
   pwm.setPWM(2, 0, 4096);
   
@@ -178,7 +185,9 @@ void loop() {
     
     Serial.println(distance);
     if((distance <= 20) == true) {
-      delay(300);
+      pwm.setPWM(0, 0, 275);
+      delay(500);
+      pwm.setPWM(0, 0, 4096);
       Serial.println("1");
       st2 = true;
       st1 = false;
@@ -206,5 +215,5 @@ void loop() {
     st3 = false;
     st1 = true;
   }
-    delay(100);
+    delay(50);
 }
